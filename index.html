@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un regalo para tu peque! | Todos a Bordo CR</title>
+  <meta name="description" content="Descargá gratis la Guía práctica para fortalecer las funciones ejecutivas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #5e7b79;
+      --mint: #b4c1ba;
+      --sand: #f7d3a1;
+      --gold: #cf9d56;
+      --coral: #e59982;
+      --blush: #e3b2ae;
+      --deep: #2e4d48;
+      --wine: #643d3e;
+      --cream: #f7f3ea;
+      --font-display: "Nunito", "Work Sans", sans-serif;
+      --font-body: "Work Sans", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--deep);
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(227,178,174,.35), transparent 45%),
+        radial-gradient(ellipse at 90% 100%, rgba(180,193,186,.4), transparent 40%),
+        linear-gradient(180deg, #fff8f3, var(--cream));
+      padding: 1.5rem 1rem 2.5rem;
+    }
+    .shell { width: min(100%, 520px); margin: 0 auto; }
+    .banner {
+      width: 100%;
+      border-radius: 18px 18px 0 0;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(46,77,72,.12);
+    }
+    .banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid rgba(94,123,121,.18);
+      border-top: 0;
+      border-radius: 0 0 18px 18px;
+      padding: 1.35rem 1.25rem 1.5rem;
+      box-shadow: 0 14px 34px rgba(46,77,72,.1);
+    }
+    h1 {
+      margin: 0 0 .55rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.45rem, 4vw, 1.75rem);
+      color: var(--deep);
+      line-height: 1.2;
+    }
+    .lead {
+      margin: 0 0 1.1rem;
+      color: var(--teal);
+      font-size: .98rem;
+      line-height: 1.55;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: .9rem;
+      margin: .85rem 0 .35rem;
+      color: var(--deep);
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1px solid rgba(94,123,121,.35);
+      border-radius: 999px;
+      font: inherit;
+      color: var(--deep);
+      background: #fff;
+    }
+    input:focus {
+      outline: 2px solid rgba(94,123,121,.35);
+      border-color: var(--teal);
+    }
+    .check {
+      display: flex;
+      gap: .65rem;
+      align-items: flex-start;
+      margin: 1rem 0 0;
+      font-size: .88rem;
+      color: var(--deep);
+      line-height: 1.4;
+    }
+    .check input { margin-top: .2rem; width: auto; accent-color: var(--gold); }
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 1.15rem;
+      padding: .95rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--deep);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.02rem;
+      cursor: pointer;
+      transition: transform .15s ease, filter .15s ease;
+    }
+    button:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    button:disabled { opacity: .7; cursor: wait; }
+    .status {
+      min-height: 1.3em;
+      margin-top: .75rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: .92rem;
+    }
+    .status.ok { color: var(--teal); }
+    .status.err { color: var(--wine); }
+    .brand {
+      text-align: center;
+      margin-top: 1.1rem;
+      font-size: .82rem;
+      color: var(--teal);
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="banner">
+      <img src="portada-formulario.png" alt="Qué bueno que querás seguir aprendiendo nuevas formas de acompañar a tu peque" />
+    </div>
+    <form class="card" id="form" novalidate>
+      <h1>Un regalo para tu peque!</h1>
+      <p class="lead">
+        Completá tus datos para unirte a nuestra comunidad digital y descargar gratis la
+        <strong>Guía práctica para fortalecer las funciones ejecutivas</strong>.
+      </p>
+
+      <label for="nombre">Nombre completo *</label>
+      <input id="nombre" name="nombre" type="text" required autocomplete="name" />
+
+      <label for="email">Correo electrónico *</label>
+      <input id="email" name="email" type="email" required autocomplete="email" />
+
+      <label class="check">
+        <input id="consent" type="checkbox" required />
+        <span>Quiero unirme a la comunidad digital de Todos a Bordo y recibir información sobre recursos, actividades y talleres. *</span>
+      </label>
+
+      <button type="submit" id="btn">💛 DESCARGAR MI GUÍA GRATIS</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="brand">todos a bordo · Gustavo Mora</p>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById("form");
+      var statusEl = document.getElementById("status");
+      var btn = document.getElementById("btn");
+      var ENDPOINTS = [
+        "/api/submit",
+        "submit.php",
+        "https://temporary-snappy-sycamore-y2t28gh.vercel.app/api/submit"
+      ];
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          statusEl.className = "status err";
+          statusEl.textContent = "Completá los campos obligatorios.";
+          form.reportValidity();
+          return;
+        }
+        btn.disabled = true;
+        statusEl.className = "status";
+        statusEl.textContent = "Enviando…";
+
+        var payload = {
+          email: document.getElementById("email").value.trim(),
+          attributes: {
+            NOMBRE_COMPLETO: document.getElementById("nombre").value.trim(),
+            NOMBRE: document.getElementById("nombre").value.trim().split(/\s+/)[0],
+            RECURSO_ORIGEN: "Guia funciones ejecutivas",
+            AUTORIZACION_COMUNICACIONES: "Si"
+          },
+          // Lista principal migrada (6000+) + lista del recurso (automatización bienvenida)
+          listIds: [5, 6],
+          updateEnabled: true
+        };
+
+        var ok = false;
+        for (var i = 0; i < ENDPOINTS.length; i++) {
+          try {
+            var res = await fetch(ENDPOINTS[i], {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            if (res.ok) { ok = true; break; }
+          } catch (err) {}
+        }
+
+        if (ok) {
+          statusEl.className = "status ok";
+          statusEl.textContent = "¡Listo! Te redirigimos…";
+          setTimeout(function () {
+            window.location.href = "https://todosabordocr.com";
+          }, 700);
+        } else {
+          statusEl.className = "status err";
+          statusEl.textContent = "No se pudo enviar. Escribinos a todosabordocr@gmail.com";
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
