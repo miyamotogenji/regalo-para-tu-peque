@@ -207,11 +207,58 @@
   <p class="foot">todos a bordo · Gustavo Mora</p>
 
   <script>
-    window.REQUIRED_ERROR_MESSAGE = "Este campo no puede quedar vacío.";
-    window.EMAIL_INVALID_MESSAGE = "La información ingresada no es válida. Revisá el formato del campo e intentá de nuevo.";
-    window.GENERIC_INVALID_MESSAGE = "La información ingresada no es válida. Revisá el formato del campo e intentá de nuevo.";
-    window.LOCALE = "es";
+    (function () {
+      var form = document.getElementById("sib-form");
+      var err = document.getElementById("error-message");
+      var ok = document.getElementById("success-message");
+      var btn = form.querySelector('button[type="submit"]');
+
+      function show(el, visible) {
+        el.style.display = visible ? "block" : "none";
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        show(err, false);
+        show(ok, false);
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        btn.disabled = true;
+        var body = new URLSearchParams(new FormData(form));
+
+        fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: body.toString(),
+          credentials: "omit",
+        })
+          .then(function (res) {
+            return res.json().catch(function () { return { success: res.ok }; });
+          })
+          .then(function (data) {
+            if (data && data.success) {
+              show(ok, true);
+              form.reset();
+              // Redirect to thank-you / download page used by Brevo form settings
+              window.setTimeout(function () {
+                window.location.href = "https://todosabordocr.com/";
+              }, 1200);
+            } else {
+              show(err, true);
+            }
+          })
+          .catch(function () {
+            show(err, true);
+          })
+          .finally(function () {
+            btn.disabled = false;
+          });
+      });
+    })();
   </script>
-  <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 </body>
 </html>
