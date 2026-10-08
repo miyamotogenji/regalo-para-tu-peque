@@ -154,9 +154,11 @@
           </div>
         </div>
 
+        <iframe name="sib_frame" id="sib_frame" title="Brevo" style="display:none"></iframe>
         <form
           id="sib-form"
           method="POST"
+          target="sib_frame"
           data-type="subscription"
           action="https://d65b6039.sibforms.com/serve/MUIFANLrjM8SUZRdGeAtRgMIaNKiWTcVoqZIhk8xaPAaEKMcV6s-wUFhOpk-vvAC9e9WBF-H3NmCUAzR9ayL_sG0CJsnHVJ8Kvbyz_bJppD6szJaEMbOG1AKWNAztCtWGm7A8va7RfPYJFPdn9gm5HLKprVOLVPZETqAzps3ow-hJL356bQDHlUJiZeP1EKSxMsLzCDrJJ9G10L3Pg=="
         >
@@ -209,54 +211,34 @@
   <script>
     (function () {
       var form = document.getElementById("sib-form");
+      var frame = document.getElementById("sib_frame");
       var err = document.getElementById("error-message");
       var ok = document.getElementById("success-message");
       var btn = form.querySelector('button[type="submit"]');
+      var pending = false;
 
       function show(el, visible) {
         el.style.display = visible ? "block" : "none";
       }
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
+      form.addEventListener("submit", function () {
+        if (!form.checkValidity()) return;
+        pending = true;
+        btn.disabled = true;
         show(err, false);
         show(ok, false);
+      });
 
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        btn.disabled = true;
-        var body = new URLSearchParams(new FormData(form));
-
-        fetch(form.action, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: body.toString(),
-          credentials: "omit",
-        })
-          .then(function (res) {
-            return res.json().catch(function () { return { success: res.ok }; });
-          })
-          .then(function (data) {
-            if (data && data.success) {
-              show(ok, true);
-              form.reset();
-              // Redirect to thank-you / download page used by Brevo form settings
-              window.setTimeout(function () {
-                window.location.href = "https://todosabordocr.com/";
-              }, 1200);
-            } else {
-              show(err, true);
-            }
-          })
-          .catch(function () {
-            show(err, true);
-          })
-          .finally(function () {
-            btn.disabled = false;
-          });
+      // Classic POST into hidden iframe → Brevo processes without CORS issues
+      frame.addEventListener("load", function () {
+        if (!pending) return;
+        pending = false;
+        btn.disabled = false;
+        show(ok, true);
+        form.reset();
+        window.setTimeout(function () {
+          window.location.href = "https://todosabordocr.com/";
+        }, 1200);
       });
     })();
   </script>
