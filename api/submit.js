@@ -31,7 +31,10 @@ module.exports = async (req, res) => {
   if (!data || !data.email) return res.status(400).json({ error: 'invalid' });
 
   const attributes = data.attributes || {};
-  const listIds = data.listIds || [5, 6];
+  // List 10 = Descargas FE - Formulario actual (avoids old Welcome automation on list 6 that sends wrong template)
+  // List 5 = Migracion Mailrelay master list
+  // Template 8 = Bienvenida PRUEBA Canva
+  const listIds = data.listIds || [5, 10];
 
   const contact = await brevo('/contacts', 'POST', {
     email: data.email,

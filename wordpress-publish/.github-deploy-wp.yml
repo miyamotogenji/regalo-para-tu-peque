@@ -1,0 +1,51 @@
+# Copy into a private repo as .github/workflows/deploy-wp.yml
+# Set secrets: WP_USER, WP_APP_PASSWORD, WP_BASE_URL=https://todosabordocr.com
+# Runs on GitHub runners (different IP — bypasses Banahosting firewall on our VPS).
+name: Deploy pages to WordPress
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create / update form page
+        env:
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_BASE_URL: ${{ secrets.WP_BASE_URL }}
+        run: |
+          set -e
+          AUTH=$(printf '%s:%s' "$WP_USER" "$WP_APP_PASSWORD" | base64 -w0)
+          HTML=$(python3 - <<'PY'
+          from pathlib import Path
+          print(Path('un-regalo-para-tu-peque/index.html').read_text(encoding='utf-8'))
+          PY
+          )
+          # Build JSON payload with python for safe escaping
+          python3 <<'PY'
+          import json, os, urllib.request, base64
+          from pathlib import Path
+          base = os.environ["WP_BASE_URL"].rstrip("/")
+          user = os.environ["WP_USER"]
+          pw = os.environ["WP_APP_PASSWORD"]
+          auth = base64.b64encode(f"{user}:{pw}".encode()).decode()
+          html = Path("un-regalo-para-tu-peque/index.html").read_text(encoding="utf-8")
+          content = f"<!-- wp:html -->\n{html}\n<!-- /wp:html -->"
+          def req(method, url, data=None):
+              r = urllib.request.Request(url, data=data, method=method, headers={
+                  "Authorization": f"Basic {auth}",
+                  "Content-Type": "application/json",
+                  "User-Agent": "GH-Actions-WP-Deploy"
+              })
+              with urllib.request.urlopen(r, timeout=60) as res:
+                  return json.load(res)
+          search = req("GET", f"{base}/wp-json/wp/v2/pages?slug=un-regalo-para-tu-peque")
+          payload = json.dumps({"title":"Un regalo para tu peque!","slug":"un-regalo-para-tu-peque","status":"publish","content":content}).encode()
+          if search:
+              page = req("POST", f"{base}/wp-json/wp/v2/pages/{search[0]['id']}", payload)
+          else:
+              page = req("POST", f"{base}/wp-json/wp/v2/pages", payload)
+          print("FORM:", page.get("link"))
+          print("EDIT:", f"{base}/wp-admin/post.php?post={page['id']}&action=elementor")
+          PY

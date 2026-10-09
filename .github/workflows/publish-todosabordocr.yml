@@ -31,19 +31,32 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           printf '%s\n' '<?php' 'return [' "  'api_key' => '${BREVO_API_KEY}'," '];' > wordpress-publish/el-poder-de-ser-yo/brevo-config.php
-          for cred in "hola@todosabordocr.com:Lorenzo160384.." "hola:Lorenzo160384.." "todosabordocr:Carmen160384.." "todosabordocr:@w@xQcxN\$v3STlcn"; do
+          # cPanel FTP usernames are often account name OR full email
+          for cred in \
+            "hola@todosabordocr.com:@w@xQcxN\$v3STlcn" \
+            "hola@todosabordocr.com:Lorenzo160384.." \
+            "todosabordocr:Lorenzo160384.." \
+            "todosabordocr:@w@xQcxN\$v3STlcn" \
+            "todosabordocr:Carmen160384.." \
+            "hola:Lorenzo160384.."
+          do
             user="${cred%%:*}"; pass="${cred#*:}"
             echo "FTP try user=$user"
-            lftp -u "$user,$pass" ftp.todosabordocr.com -e "\
-            set ssl:verify-certificate no; \
-            set net:timeout 20; set net:max-retries 2; \
-            pwd; ls; \
-            cd public_html || cd www || cd htdocs || cd .; \
-            pwd; ls; \
-            mirror -R wordpress-publish/un-regalo-para-tu-peque un-regalo-para-tu-peque; \
-            mirror -R wordpress-publish/el-poder-de-ser-yo el-poder-de-ser-yo; \
-            bye" && break
+            for host in ftp.todosabordocr.com todosabordocr.com bh8946.banahosting.com; do
+              echo " host=$host"
+              lftp -u "$user,$pass" "$host" -e "\
+              set ssl:verify-certificate no; \
+              set ftp:ssl-allow no; \
+              set net:timeout 25; set net:max-retries 2; \
+              pwd; ls; \
+              cd public_html || cd www || cd htdocs || cd .; \
+              pwd; \
+              mirror -R --verbose=1 wordpress-publish/un-regalo-para-tu-peque un-regalo-para-tu-peque; \
+              mirror -R --verbose=1 wordpress-publish/el-poder-de-ser-yo el-poder-de-ser-yo; \
+              bye" && exit 0
+            done
           done
+          echo "FTP all attempts failed"; exit 1
 
       - name: Upload publish log
         uses: actions/upload-artifact@v4
