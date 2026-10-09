@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           printf '%s\n' '<?php' 'return [' "  'api_key' => '${BREVO_API_KEY}'," '];' > wordpress-publish/el-poder-de-ser-yo/brevo-config.php
-          for cred in "todosabordocr:Carmen160384.." "todosabordocr:@w@xQcxN\$v3STlcn" "todosabordocr@gmail.com:Carmen160384.."; do
+          for cred in "hola@todosabordocr.com:Lorenzo160384.." "hola:Lorenzo160384.." "todosabordocr:Carmen160384.." "todosabordocr:@w@xQcxN\$v3STlcn"; do
             user="${cred%%:*}"; pass="${cred#*:}"
             echo "FTP try user=$user"
             lftp -u "$user,$pass" ftp.todosabordocr.com -e "\
