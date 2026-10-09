@@ -25,6 +25,7 @@ jobs:
 
       - name: Try FTP static upload (P2/P3 folders)
         continue-on-error: true
+        timeout-minutes: 8
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: |
@@ -35,6 +36,7 @@ jobs:
             echo "FTP try user=$user"
             lftp -u "$user,$pass" ftp.todosabordocr.com -e "\
             set ssl:verify-certificate no; \
+            set net:timeout 20; set net:max-retries 2; \
             pwd; ls; \
             cd public_html || cd www || cd htdocs || cd .; \
             pwd; ls; \
