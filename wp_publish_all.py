@@ -11,8 +11,17 @@ from pathlib import Path
 BASE = "http://todosabordocr.com"
 ROOT = Path(__file__).resolve().parent / "wordpress-publish"
 
-USERS = ["admin", "gustavo", "todosabordocr", "Gustavo", "hola", "carmen"]
+USERS = [
+    "hola",
+    "hola@todosabordocr.com",
+    "admin",
+    "gustavo",
+    "todosabordocr",
+    "Gustavo",
+    "carmen",
+]
 PASSWORDS = [
+    "Lorenzo160384..",
     "Carmen160384..",
     "@w@xQcxN$v3STlcn",
     "Carmen160384",
