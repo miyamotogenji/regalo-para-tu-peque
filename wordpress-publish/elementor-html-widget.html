@@ -1,0 +1,54 @@
+<!-- Pegá este bloque en Elementor → widget HTML (página nueva o Recursos gratis).
+     Después abrí con Elementor y editá textos/imagen sin dependerme. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Work+Sans:wght@400;500;600;700&display=swap" />
+<style>
+.tab-regalo{--teal:#5e7b79;--deep:#2e4d48;--gold:#cf9d56;--cream:#f7f3ea;font-family:"Work Sans",sans-serif;color:var(--deep);background:radial-gradient(ellipse at 10% 0%,rgba(227,178,174,.35),transparent 45%),radial-gradient(ellipse at 90% 100%,rgba(180,193,186,.4),transparent 40%),linear-gradient(180deg,#fff8f3,var(--cream));padding:1.5rem 1rem 2.5rem}
+.tab-regalo *{box-sizing:border-box}
+.tab-regalo__shell{width:min(100%,520px);margin:0 auto;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 34px rgba(46,77,72,.12);border:1px solid rgba(94,123,121,.16)}
+.tab-regalo__banner{display:block;width:100%;height:auto}
+.tab-regalo__card{padding:1.25rem 1.2rem 1.45rem}
+.tab-regalo__title{margin:0 0 .55rem;font-family:Nunito,sans-serif;font-size:clamp(1.45rem,4vw,1.75rem);color:var(--deep);line-height:1.2}
+.tab-regalo__lead{margin:0 0 1rem;color:var(--teal);font-size:.97rem;line-height:1.55}
+.tab-regalo label{display:block;font-weight:600;font-size:.9rem;margin:.85rem 0 .35rem;color:var(--deep)}
+.tab-regalo input[type=text],.tab-regalo input[type=email]{width:100%;padding:.8rem 1rem;border:1px solid rgba(94,123,121,.35);border-radius:999px;font:inherit;color:var(--deep);background:#fff}
+.tab-regalo__check{display:flex!important;gap:.65rem;align-items:flex-start;margin:1rem 0 0!important;font-size:.88rem;font-weight:400!important;line-height:1.4}
+.tab-regalo__check input{margin-top:.2rem;width:auto;accent-color:var(--gold)}
+.tab-regalo__hint{margin:.55rem 0 0;font-size:.78rem;color:var(--teal)}
+.tab-regalo button[type=submit]{display:block;width:100%;margin-top:1.15rem;padding:.95rem 1rem;border:0;border-radius:999px;background:var(--gold);color:var(--deep);font-family:Nunito,sans-serif;font-weight:800;font-size:1.02rem;cursor:pointer}
+.tab-regalo button[type=submit]:disabled{opacity:.7;cursor:wait}
+.tab-regalo__msg{margin-bottom:.85rem;border-radius:10px;padding:.75rem .9rem;font-size:.92rem}
+.tab-regalo__msg--error{color:#661d1d;background:#ffeded;border:1px solid #ff4949}
+.tab-regalo__msg--ok{color:#085229;background:#e7faf0;border:1px solid #13ce66}
+.tab-regalo__msg[hidden]{display:none!important}
+.tab-regalo__foot{text-align:center;margin:.9rem 0 0;font-size:.8rem;color:rgba(46,77,72,.55)}
+</style>
+<div class="tab-regalo" data-thanks="https://miyamotogenji.github.io/regalo-para-tu-peque/gracias.html">
+  <div class="tab-regalo__shell">
+    <img class="tab-regalo__banner" src="https://miyamotogenji.github.io/regalo-para-tu-peque/portada-formulario.png" alt="Qué bueno que querás seguir aprendiendo nuevas formas de acompañar a tu peque." />
+    <div class="tab-regalo__card">
+      <div id="error-message" class="tab-regalo__msg tab-regalo__msg--error" hidden>No pudimos guardar tu suscripción. Por favor intentá de nuevo.</div>
+      <div id="success-message" class="tab-regalo__msg tab-regalo__msg--ok" hidden>¡Listo! Ya estás a bordo. Te llevamos a tu descarga…</div>
+      <iframe name="sib_frame" id="sib_frame" title="Brevo" style="display:none"></iframe>
+      <form id="sib-form" method="POST" target="sib_frame" action="https://d65b6039.sibforms.com/serve/MUIFANLrjM8SUZRdGeAtRgMIaNKiWTcVoqZIhk8xaPAaEKMcV6s-wUFhOpk-vvAC9e9WBF-H3NmCUAzR9ayL_sG0CJsnHVJ8Kvbyz_bJppD6szJaEMbOG1AKWNAztCtWGm7A8va7RfPYJFPdn9gm5HLKprVOLVPZETqAzps3ow-hJL356bQDHlUJiZeP1EKSxMsLzCDrJJ9G10L3Pg==">
+        <h1 class="tab-regalo__title">Un regalo para tu peque!</h1>
+        <p class="tab-regalo__lead">Completá tus datos para unirte a nuestra comunidad digital y descargar gratis la <strong>Guía práctica para fortalecer las funciones ejecutivas</strong>.</p>
+        <label for="NOMBRE_COMPLETO">Nombre completo *</label>
+        <input id="NOMBRE_COMPLETO" name="NOMBRE_COMPLETO" type="text" autocomplete="name" placeholder="Tu nombre completo" required />
+        <label for="EMAIL">Correo electrónico *</label>
+        <input id="EMAIL" name="EMAIL" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+        <label class="tab-regalo__check">
+          <input type="checkbox" id="OPT_IN" name="OPT_IN" value="1" required />
+          <span>Quiero unirme a la comunidad digital de Todos a Bordo y recibir información sobre recursos, actividades y talleres. *</span>
+        </label>
+        <p class="tab-regalo__hint">Podés cancelar tu suscripción en cualquier momento usando el enlace en nuestros correos.</p>
+        <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" style="display:none" />
+        <input type="hidden" name="locale" value="es" />
+        <button type="submit">💛 DESCARGAR MI GUÍA GRATIS</button>
+      </form>
+    </div>
+  </div>
+  <p class="tab-regalo__foot">todos a bordo · Gustavo Mora</p>
+</div>
+<script>
+(function(){var root=document.querySelector(".tab-regalo");var form=document.getElementById("sib-form");var frame=document.getElementById("sib_frame");var err=document.getElementById("error-message");var ok=document.getElementById("success-message");var btn=form.querySelector('button[type="submit"]');var pending=false;var thanks=root.getAttribute("data-thanks");function show(el,v){if(!el)return;if(v)el.removeAttribute("hidden");else el.setAttribute("hidden","hidden");el.style.display=v?"block":"none"}form.addEventListener("submit",function(){if(!form.checkValidity())return;pending=true;btn.disabled=true;show(err,false);show(ok,false)});frame.addEventListener("load",function(){if(!pending)return;pending=false;btn.disabled=false;show(ok,true);form.reset();setTimeout(function(){location.href=thanks},900)})})();
+</script>

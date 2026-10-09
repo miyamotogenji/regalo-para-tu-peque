@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un regalo para tu peque! | Todos a Bordo CR</title>
+  <meta name="description" content="Descargá gratis la Guía práctica para fortalecer las funciones ejecutivas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css" />
+  <style>
+    :root {
+      --teal: #5e7b79;
+      --deep: #2e4d48;
+      --wine: #643d3e;
+      --gold: #cf9d56;
+      --cream: #f7f3ea;
+      --font-display: "Nunito", "Work Sans", sans-serif;
+      --font-body: "Work Sans", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--deep);
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(227,178,174,.35), transparent 45%),
+        radial-gradient(ellipse at 90% 100%, rgba(180,193,186,.4), transparent 40%),
+        linear-gradient(180deg, #fff8f3, var(--cream));
+      padding: 1.5rem 1rem 2.5rem;
+    }
+    .shell {
+      width: min(100%, 520px);
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 34px rgba(46,77,72,.12);
+      border: 1px solid rgba(94,123,121,.16);
+    }
+    .banner { display: block; width: 100%; height: auto; }
+    .card { padding: 1.25rem 1.2rem 1.45rem; }
+    h1 {
+      margin: 0 0 .55rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.45rem, 4vw, 1.75rem);
+      color: var(--deep);
+      line-height: 1.2;
+    }
+    .lead {
+      margin: 0 0 1rem;
+      color: var(--teal);
+      font-size: .97rem;
+      line-height: 1.55;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: .9rem;
+      margin: .85rem 0 .35rem;
+      color: var(--deep);
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1px solid rgba(94,123,121,.35);
+      border-radius: 999px;
+      font: inherit;
+      color: var(--deep);
+      background: #fff;
+    }
+    input:focus {
+      outline: 2px solid rgba(94,123,121,.35);
+      border-color: var(--teal);
+    }
+    .spec {
+      margin: .25rem 0 0;
+      font-size: .78rem;
+      color: var(--teal);
+    }
+    .check {
+      display: flex;
+      gap: .65rem;
+      align-items: flex-start;
+      margin: 1rem 0 0;
+      font-size: .88rem;
+      color: var(--deep);
+      line-height: 1.4;
+    }
+    .check input { margin-top: .2rem; width: auto; accent-color: var(--gold); }
+    .cancel-hint {
+      margin: .55rem 0 0;
+      font-size: .78rem;
+      color: var(--teal);
+    }
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      margin-top: 1.15rem;
+      padding: .95rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--deep);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.02rem;
+      cursor: pointer;
+    }
+    button[type="submit"]:disabled { opacity: .7; cursor: wait; }
+    .sib-form-message-panel {
+      margin-bottom: .85rem;
+      border-radius: 10px;
+    }
+    .foot {
+      text-align: center;
+      margin-top: .9rem;
+      font-size: .8rem;
+      color: rgba(46,77,72,.55);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <img
+      class="banner"
+      src="portada-formulario.png"
+      alt="Qué bueno que querás seguir aprendiendo nuevas formas de acompañar a tu peque. Este regalo es un recurso más para hacerlo."
+    />
+    <div class="card">
+      <div id="sib-form-container" class="sib-form-container">
+        <div
+          id="error-message"
+          class="sib-form-message-panel"
+          style="font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; display:none"
+        >
+          <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+            <span class="sib-form-message-panel__inner-text">
+              No pudimos guardar tu suscripción. Por favor intentá de nuevo.
+            </span>
+          </div>
+        </div>
+        <div
+          id="success-message"
+          class="sib-form-message-panel"
+          style="font-size:16px; text-align:left; color:#085229; background-color:#e7faf0; border-color:#13ce66; display:none"
+        >
+          <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+            <span class="sib-form-message-panel__inner-text">
+              ¡Listo! Ya estás a bordo.
+            </span>
+          </div>
+        </div>
+
+        <iframe name="sib_frame" id="sib_frame" title="Brevo" style="display:none"></iframe>
+        <form
+          id="sib-form"
+          method="POST"
+          target="sib_frame"
+          data-type="subscription"
+          action="https://d65b6039.sibforms.com/serve/MUIFANLrjM8SUZRdGeAtRgMIaNKiWTcVoqZIhk8xaPAaEKMcV6s-wUFhOpk-vvAC9e9WBF-H3NmCUAzR9ayL_sG0CJsnHVJ8Kvbyz_bJppD6szJaEMbOG1AKWNAztCtWGm7A8va7RfPYJFPdn9gm5HLKprVOLVPZETqAzps3ow-hJL356bQDHlUJiZeP1EKSxMsLzCDrJJ9G10L3Pg=="
+        >
+          <h1>Un regalo para tu peque!</h1>
+          <p class="lead">
+            Completá tus datos para unirte a nuestra comunidad digital y descargar gratis la
+            <strong>Guía práctica para fortalecer las funciones ejecutivas</strong>.
+          </p>
+
+          <label for="NOMBRE_COMPLETO">Nombre completo *</label>
+          <input
+            id="NOMBRE_COMPLETO"
+            name="NOMBRE_COMPLETO"
+            type="text"
+            autocomplete="name"
+            placeholder="Tu nombre completo"
+            data-required="true"
+            required
+          />
+          <p class="spec">Tu nombre completo</p>
+
+          <label for="EMAIL">Correo electrónico *</label>
+          <input
+            id="EMAIL"
+            name="EMAIL"
+            type="email"
+            autocomplete="email"
+            placeholder="tu@correo.com"
+            data-required="true"
+            required
+          />
+          <p class="spec">Tu correo electrónico</p>
+
+          <label class="check">
+            <input type="checkbox" id="OPT_IN" name="OPT_IN" value="1" data-required="true" required />
+            <span>Quiero unirme a la comunidad digital de Todos a Bordo y recibir información sobre recursos, actividades y talleres. *</span>
+          </label>
+          <p class="cancel-hint">Podés cancelar tu suscripción en cualquier momento usando el enlace en nuestros correos.</p>
+
+          <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="locale" value="es" />
+
+          <button type="submit">💛 DESCARGAR MI GUÍA GRATIS</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <p class="foot">todos a bordo · Gustavo Mora</p>
+
+  <script>
+    (function () {
+      var form = document.getElementById("sib-form");
+      var frame = document.getElementById("sib_frame");
+      var err = document.getElementById("error-message");
+      var ok = document.getElementById("success-message");
+      var btn = form.querySelector('button[type="submit"]');
+      var pending = false;
+
+      function show(el, visible) {
+        el.style.display = visible ? "block" : "none";
+      }
+
+      form.addEventListener("submit", function () {
+        if (!form.checkValidity()) return;
+        pending = true;
+        btn.disabled = true;
+        show(err, false);
+        show(ok, false);
+      });
+
+      // Classic POST into hidden iframe → Brevo processes without CORS issues
+      frame.addEventListener("load", function () {
+        if (!pending) return;
+        pending = false;
+        btn.disabled = false;
+        show(ok, true);
+        form.reset();
+        window.setTimeout(function () {
+          window.location.href = "gracias.html";
+        }, 900);
+      });
+    })();
+  </script>
+</body>
+</html>

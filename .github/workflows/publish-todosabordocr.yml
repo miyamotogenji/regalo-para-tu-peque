@@ -1,0 +1,42 @@
+name: Publish todosabordocr.com
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe hosting from GitHub runner
+        run: |
+          set -e
+          echo "Runner IP:" $(curl -s https://api.ipify.org)
+          curl -sI --max-time 20 http://todosabordocr.com/wp-login.php | head -5
+          curl -s --max-time 20 http://todosabordocr.com/wp-json/ | head -c 200; echo
+
+      - name: Try WordPress REST publish
+        run: python wp_publish_all.py | tee publish.log
+
+      - name: Try FTP static upload (P2/P3 folders)
+        continue-on-error: true
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          printf '%s\n' '<?php' 'return [' "  'api_key' => '${BREVO_API_KEY}'," '];' > wordpress-publish/el-poder-de-ser-yo/brevo-config.php
+          lftp -u "todosabordocr,Carmen160384.." ftp.todosabordocr.com -e "\
+            set ssl:verify-certificate no; \
+            pwd; ls; \
+            cd public_html || cd www || cd htdocs || cd .; \
+            pwd; ls; \
+            mirror -R wordpress-publish/un-regalo-para-tu-peque un-regalo-para-tu-peque; \
+            mirror -R wordpress-publish/el-poder-de-ser-yo el-poder-de-ser-yo; \
+            bye"
+
+      - name: Upload publish log
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-log
+          path: publish.log
