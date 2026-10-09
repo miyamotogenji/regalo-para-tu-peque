@@ -17,7 +17,15 @@ jobs:
           curl -s --max-time 20 http://todosabordocr.com/wp-json/ | head -c 200; echo
 
       - name: Try WordPress REST publish
+        continue-on-error: true
         run: python wp_publish_all.py | tee publish.log
+
+      - name: Try WordPress admin browser publish (cookie nonce)
+        continue-on-error: true
+        run: |
+          pip install playwright -q
+          python -m playwright install --with-deps chromium
+          python wp_browser_publish.py | tee -a publish.log
 
       - name: Try WordPress XML-RPC publish
         continue-on-error: true
