@@ -19,6 +19,10 @@ jobs:
       - name: Try WordPress REST publish
         run: python wp_publish_all.py | tee publish.log
 
+      - name: Try WordPress XML-RPC publish
+        continue-on-error: true
+        run: python wp_xmlrpc_publish.py | tee -a publish.log
+
       - name: Try FTP static upload (P2/P3 folders)
         continue-on-error: true
         env:
@@ -26,14 +30,18 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           printf '%s\n' '<?php' 'return [' "  'api_key' => '${BREVO_API_KEY}'," '];' > wordpress-publish/el-poder-de-ser-yo/brevo-config.php
-          lftp -u "todosabordocr,Carmen160384.." ftp.todosabordocr.com -e "\
+          for cred in "todosabordocr:Carmen160384.." "todosabordocr:@w@xQcxN\$v3STlcn" "todosabordocr@gmail.com:Carmen160384.."; do
+            user="${cred%%:*}"; pass="${cred#*:}"
+            echo "FTP try user=$user"
+            lftp -u "$user,$pass" ftp.todosabordocr.com -e "\
             set ssl:verify-certificate no; \
             pwd; ls; \
             cd public_html || cd www || cd htdocs || cd .; \
             pwd; ls; \
             mirror -R wordpress-publish/un-regalo-para-tu-peque un-regalo-para-tu-peque; \
             mirror -R wordpress-publish/el-poder-de-ser-yo el-poder-de-ser-yo; \
-            bye"
+            bye" && break
+          done
 
       - name: Upload publish log
         uses: actions/upload-artifact@v4

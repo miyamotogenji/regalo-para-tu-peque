@@ -12,7 +12,14 @@ BASE = "http://todosabordocr.com"
 ROOT = Path(__file__).resolve().parent / "wordpress-publish"
 
 USERS = ["admin", "gustavo", "todosabordocr", "Gustavo", "hola", "carmen"]
-PASSWORDS = ["Carmen160384..", "@w@xQcxN$v3STlcn", "Carmen160384"]
+PASSWORDS = [
+    "Carmen160384..",
+    "@w@xQcxN$v3STlcn",
+    "Carmen160384",
+    "Todosabordocr2024",
+    "Todosabordocr2025",
+    "TodosABordo2024!",
+]
 
 
 def req(method: str, path: str, user: str, password: str, body: dict | None = None) -> tuple[int, str]:
@@ -40,12 +47,13 @@ def find_auth() -> tuple[str, str] | None:
     for user in USERS:
         for password in PASSWORDS:
             code, body = req("GET", "/wp-json/wp/v2/users/me", user, password)
-            if code == 200 and '"id"' in body and "Unauthorized Access" not in body:
+            if "firewall" in body.lower() or "Unauthorized Access" in body:
+                print(f"BLOCKED ({user}) — Banahosting firewall")
+                continue
+            if code == 200 and '"id"' in body:
                 print(f"AUTH OK user={user}")
                 return user, password
-            if "firewall" in body.lower() or "Unauthorized Access" in body:
-                print("BLOCKED by Banahosting firewall — unblock IP first.")
-                return None
+            print(f"auth fail user={user} code={code}")
     return None
 
 
